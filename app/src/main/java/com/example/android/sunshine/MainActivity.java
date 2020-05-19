@@ -15,6 +15,7 @@
  */
 package com.example.android.sunshine;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,14 +26,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.sunshine.data.SunshinePreferences;
 import com.example.android.sunshine.utilities.NetworkUtils;
 import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
+import com.example.android.sunshine.ForecastAdapter.ForecastAdapterOnClickHandler;
 
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ForecastAdapterOnClickHandler{
 
        private RecyclerView mRecyclerView;
        private ForecastAdapter mForecastAdapter;
@@ -44,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forecast);
-       mRecyclerView=(RecyclerView)findViewById(R.id.recyclerview_forecast);
+        mRecyclerView=(RecyclerView)findViewById(R.id.recyclerview_forecast);
         merrormsg = (TextView)findViewById(R.id.errormsg);
 
     LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
     mRecyclerView.setLayoutManager(layoutManager);
     mRecyclerView.setHasFixedSize(true);
-    mForecastAdapter = new ForecastAdapter();
+    mForecastAdapter = new ForecastAdapter(this);
     mRecyclerView.setAdapter(mForecastAdapter);
 
 
@@ -67,6 +70,13 @@ public class MainActivity extends AppCompatActivity {
         String location = SunshinePreferences.getPreferredWeatherLocation(this);
         new FetchWeatherTask().execute(location);
     }
+
+    @Override
+    public void onClick(String weatherForDay) {
+        Context context =this;
+        Toast.makeText(context, weatherForDay, Toast.LENGTH_SHORT).show();
+    }
+
 
     private void showWeatherDataView(){
       mRecyclerView.setVisibility(View.VISIBLE);
@@ -157,6 +167,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
