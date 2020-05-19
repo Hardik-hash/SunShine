@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.sunshine.data.SunshinePreferences;
@@ -30,24 +32,49 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mWeatherTextView;
+    private TextView merrormsg;
+    private ProgressBar mprogressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forecast);
         mWeatherTextView=(TextView)findViewById(R.id.tv_weather_data);
+        merrormsg = (TextView)findViewById(R.id.errormsg);
+        mprogressBar = (ProgressBar)findViewById(R.id.mprogress);
+
         loadWeatherData();
     }
 
     public void loadWeatherData()
     {
+        showWeatherDataView();
         String location = SunshinePreferences.getPreferredWeatherLocation(this);
         new FetchWeatherTask().execute(location);
+    }
+
+    private void showWeatherDataView(){
+        mWeatherTextView.setVisibility(View.VISIBLE);
+        merrormsg.setVisibility(View.INVISIBLE);
+    }
+
+    private void showErrorMessage()
+    {
+        merrormsg.setVisibility(View.VISIBLE);
+        mWeatherTextView.setVisibility(View.INVISIBLE);
     }
 
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
 
         // TODO (6) Override the doInBackground method to perform your network requests
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mprogressBar.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected String[] doInBackground(String... params) {
@@ -80,13 +107,19 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String[] weatherData) {
+            mprogressBar.setVisibility(View.INVISIBLE);
 
             if(weatherData != null) {
-
+                     showWeatherDataView();
 
                 for (String weatherString : weatherData) {
                     mWeatherTextView.append((weatherString) + "\n\n\n");
                 }
+            }
+
+            else
+            {
+                showErrorMessage();
             }
         }
     }
