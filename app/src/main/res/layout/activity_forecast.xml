@@ -29,19 +29,11 @@
     <!--TODO (4) Set the text size to 20sp-->
     <!--TODO (5) Remove all attributes with the word constraint in them-->
     <!--TODO (6) Remove the default text from the TextView-->
-  <ScrollView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      >
 
-    <TextView
-        android:id="@+id/tv_weather_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textSize="20sp"
-       />
-  </ScrollView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_forecast"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <TextView
         android:layout_width="wrap_content"
