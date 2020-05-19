@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
         Context context =this;
         Toast.makeText(context, weatherForDay, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MainActivity.this,DetailActivity.class);
+         intent.putExtra("weather_msg",weatherForDay);
         startActivity(intent);
     }
 
