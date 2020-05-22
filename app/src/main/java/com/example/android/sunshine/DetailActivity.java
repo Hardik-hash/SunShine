@@ -43,4 +43,17 @@ public class DetailActivity extends AppCompatActivity {
         menuItem.setIntent(createShareForecastIntent());
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        if(id==R.id.action_settings)
+        {
+         Intent settingsintent = new Intent(DetailActivity.this,SettingsActivity.class);
+         startActivity(settingsintent);
+         return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

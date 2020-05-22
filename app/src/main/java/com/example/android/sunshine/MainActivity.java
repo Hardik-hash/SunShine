@@ -211,6 +211,13 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
              openLocationInMap();
              return true;
         }
+
+        if(id == R.id.action_settings)
+        {
+            Intent settingsintent = new Intent(MainActivity.this,SettingsActivity.class);
+            startActivity(settingsintent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }
